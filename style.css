@@ -113,29 +113,74 @@ button {
 }
 
 /* ==========================================================================
-   TOP ANNOUNCEMENT BAR (FRESH & ENERGETIC)
+   TOP ANNOUNCEMENT BAR (SMOOTH INFINITE RUNNING TICKER)
    ========================================================================== */
 .announcement {
-  background: linear-gradient(90deg, #102a1e 0%, #173d2b 50%, #102a1e 100%);
+  background: linear-gradient(90deg, #0b2216 0%, #15412b 50%, #0b2216 100%);
   color: #e3f2e9;
   height: 38px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  font-weight: 700;
   overflow: hidden;
-  border-bottom: 1px solid rgba(56, 176, 120, 0.2);
+  border-bottom: 1px solid rgba(56, 176, 120, 0.25);
   position: relative;
   z-index: 50;
+  user-select: none;
+}
+
+/* Subtle edge fades for smooth luxury entrance and exit */
+.announcement::before,
+.announcement::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 48px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.announcement::before {
+  left: 0;
+  background: linear-gradient(to right, #0b2216 0%, transparent 100%);
+}
+
+.announcement::after {
+  right: 0;
+  background: linear-gradient(to left, #0b2216 0%, transparent 100%);
+}
+
+.announcement-ticker {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  will-change: transform;
+  animation: announcementMarquee 26s linear infinite;
+}
+
+.announcement:hover .announcement-ticker {
+  animation-play-state: paused;
 }
 
 .announcement-track {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 28px;
+  padding: 0 16px;
   white-space: nowrap;
+  flex-shrink: 0;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+}
+
+@keyframes announcementMarquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
 }
 
 .badge-fresh {
@@ -3143,9 +3188,27 @@ button {
   /* Announcement bar */
   .announcement {
     height: 32px !important;
-    font-size: 9px !important;
-    padding: 0 8px !important;
+  }
+
+  .announcement::before,
+  .announcement::after {
+    width: 24px !important;
+  }
+
+  .announcement-ticker {
+    animation-duration: 20s !important;
+  }
+
+  .announcement-track {
+    font-size: 9.5px !important;
     letter-spacing: 0.08em !important;
+    gap: 18px !important;
+    padding: 0 10px !important;
+  }
+
+  .badge-fresh {
+    font-size: 8.5px !important;
+    padding: 2px 7px !important;
   }
 
   /* Header */

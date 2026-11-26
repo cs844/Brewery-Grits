@@ -423,25 +423,45 @@ button {
   font-weight: 600;
   color: var(--text-body);
   position: relative;
-  padding: 8px 0;
+  padding: 8px 4px;
   white-space: nowrap;
-  transition: color var(--transition-fast);
+  overflow: visible;
+  transition: color var(--transition-fast), transform 0.2s ease;
 }
 
+/* Amber Beer Liquid Pour Line */
 .nav-link::after {
   content: "";
   position: absolute;
   bottom: 0;
-  left: 0;
+  left: 50%;
   width: 0;
-  height: 2.5px;
-  background: var(--green-vibrant);
-  border-radius: 2px;
-  transition: width var(--transition-fast);
+  height: 3.5px;
+  background: linear-gradient(90deg, #d4911d 0%, #f7b731 50%, #e8a023 100%);
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(232, 160, 35, 0.65);
+  transform: translateX(-50%);
+  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+}
+
+/* Frothy White Head Foam Collar */
+.nav-link::before {
+  content: "";
+  position: absolute;
+  bottom: 3.5px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: #ffffff;
+  border-radius: 3px;
+  opacity: 0;
+  transform: translateX(-50%);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 -1px 4px rgba(255, 255, 255, 0.95), 0 -2px 6px rgba(247, 183, 49, 0.5);
 }
 
 .nav-link:hover {
-  color: var(--green-vibrant);
+  color: #c48214;
 }
 
 .nav-link:hover::after,
@@ -449,9 +469,65 @@ button {
   width: 100%;
 }
 
+.nav-link:hover::before,
+.nav-link.active::before {
+  width: 82%;
+  opacity: 0.95;
+}
+
 .nav-link.active {
   color: var(--green-primary);
   font-weight: 700;
+}
+
+/* Glass Clink & Tap Pour Pulse on Click */
+.nav-link.beer-clink,
+.nav-cta.beer-clink {
+  animation: beerClinkPulse 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes beerClinkPulse {
+  0% {
+    transform: scale(0.95);
+  }
+  40% {
+    transform: scale(1.06);
+    color: #e8a023 !important;
+    text-shadow: 0 0 12px rgba(232, 160, 35, 0.65);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Carbonation Micro-Bubbles Rising on Nav Tab */
+.brew-bubble {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffffff 0%, rgba(247, 183, 49, 0.9) 55%, rgba(212, 145, 29, 0.9) 100%);
+  box-shadow: 0 0 6px rgba(247, 183, 49, 0.8), inset -1px -1px 2px rgba(212, 145, 29, 0.5);
+  animation: floatBrewBubble 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  z-index: 1050;
+}
+
+@keyframes floatBrewBubble {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(0.35);
+  }
+  50% {
+    opacity: 0.95;
+    transform: translate(var(--bubble-drift, 0px), -18px) scale(1.15);
+  }
+  80% {
+    opacity: 0.75;
+    transform: translate(calc(var(--bubble-drift, 0px) * 1.4), -32px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(var(--bubble-drift, 0px) * 1.8), -44px) scale(0);
+  }
 }
 
 .nav-cta {
@@ -3102,13 +3178,16 @@ button {
     border: 1px solid var(--border-light) !important;
     transition: all 0.22s ease !important;
     white-space: normal !important;
+    position: relative !important;
+    overflow: visible !important;
   }
 
   .nav-link:hover,
   .nav-link.active {
-    background: var(--green-primary) !important;
+    background: linear-gradient(135deg, #1b533a 0%, #153c2a 70%, #d4911d 100%) !important;
     color: #ffffff !important;
-    border-color: var(--green-primary) !important;
+    border-color: #d4911d !important;
+    box-shadow: 0 6px 18px rgba(27, 83, 58, 0.25), inset 0 -3px 0 #e8a023 !important;
   }
 
   .nav-link::after {

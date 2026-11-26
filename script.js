@@ -302,5 +302,65 @@ document.addEventListener("DOMContentLoaded", function () {
     updateSimulation(adjunctSlider.value);
   }
 
+  // 10. BREWERY MENUBAR ANIMATION (BUBBLE BURST & CRAFT BEER POUR)
+  function initBreweryMenuAnimation() {
+    const navLinks = document.querySelectorAll(".nav-link, .nav-cta");
+
+    function spawnBubbles(element, count) {
+      if (!element) return;
+      const rect = element.getBoundingClientRect();
+      const numBubbles = count || 5;
+
+      for (let i = 0; i < numBubbles; i++) {
+        const bubble = document.createElement("span");
+        bubble.className = "brew-bubble";
+        const size = Math.floor(Math.random() * 8) + 6; // 6px to 13px
+        const x = Math.random() * Math.max(rect.width - 12, 10) + 4;
+        const drift = (Math.random() - 0.5) * 36; // -18px to +18px drift
+        const duration = (0.6 + Math.random() * 0.35).toFixed(2);
+
+        bubble.style.width = size + "px";
+        bubble.style.height = size + "px";
+        bubble.style.left = x + "px";
+        bubble.style.bottom = "2px";
+        bubble.style.setProperty("--bubble-drift", drift + "px");
+        bubble.style.animationDuration = duration + "s";
+
+        element.appendChild(bubble);
+        setTimeout(function () {
+          bubble.remove();
+        }, 900);
+      }
+    }
+
+    navLinks.forEach(function (link) {
+      // Gentle effervescent bubbling on hover
+      link.addEventListener("mouseenter", function () {
+        spawnBubbles(link, 3);
+      });
+
+      // Joyful beer clink pulse & bubble burst on click/tap
+      link.addEventListener("click", function () {
+        link.classList.add("beer-clink");
+        spawnBubbles(link, 7);
+        setTimeout(function () {
+          link.classList.remove("beer-clink");
+        }, 480);
+      });
+    });
+
+    // Ambient micro-carbonation on the active tab every 3.5s
+    const activeLink = document.querySelector(".nav-desktop-side .nav-link.active");
+    if (activeLink) {
+      setInterval(function () {
+        if (!document.hidden) {
+          spawnBubbles(activeLink, 2);
+        }
+      }, 3500);
+    }
+  }
+
+  initBreweryMenuAnimation();
+
   console.log("Godawari Multipage Experience loaded successfully.");
 });
